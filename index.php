@@ -56,6 +56,9 @@ ajouter le fichier aux upload tmp files et tout et tout
             if ($fileUploaded == '..') {
                 continue; // Ne prend pas en compte le fichier '..'
             }
+            if ($fileUploaded == '.gitignore') {
+                continue;
+            }
 
             ?>
             <div class="col-sm-6 col-md-4">
