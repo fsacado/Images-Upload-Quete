@@ -3,6 +3,7 @@
 $uploadDir = 'uploads/'; // Dossier contenant les images uploadées (DONC CREER CE DOSSIER POUR QUE LES IMAGES AILLENT BIEN DEDANS :) )
 $filesUploaded = scandir($uploadDir); // Tableau contenant les fichiers bien uploadés
 
+
 if (!empty($_FILES)) { // Si une ou des images ont été envoyées
 
     $uploads = $_FILES['uploads']; // Raccourci
@@ -22,19 +23,17 @@ if (!empty($_FILES)) { // Si une ou des images ont été envoyées
 
             echo 'The extension of your file ' . $uploadsName[$i] . ' is not valid !<br/>';
 
-        } elseif (0 !== strpos($uploadsName[$i], 'image')) { // Si le fichier ne commence pas par 'image'
-
-            echo 'The name of your file ' . $uploadsName[$i] . ' must start with \'image\' !<br/>';
-
         } else {
 
-            $fileLocation = $uploadDir . basename($uploadsName[$i]); // Emplacement de mon image
-
+            $ext = pathinfo($uploadsName[$i], PATHINFO_EXTENSION); // Extension de mon image
+            $newName = 'image' . uniqid() . '.' . $ext;
+            $uploadsName[$i] = $newName;
+            $fileLocation = $uploadDir . basename($newName); // Emplacement de mon image
             echo '<pre>';
 
             if (move_uploaded_file($uploads['tmp_name'][$i], $fileLocation)) { // Si l'image est bien déplacée dans le dossier de destination
 
-                echo 'The folder ' . $uploadsName[$i] . ' is valid and has been uploaded with success ! <br/>Please refresh the page to see your image.';
+                echo 'The folder ' . $newName . ' is valid and has been uploaded with success ! <br/>Please refresh the page to see your image.';
 
             } else {
 
@@ -45,6 +44,7 @@ if (!empty($_FILES)) { // Si une ou des images ont été envoyées
             echo '</pre>';
         }
     }
+    header('Location: index.php');
 }
 
 ?>

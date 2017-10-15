@@ -47,7 +47,6 @@ ajouter le fichier aux upload tmp files et tout et tout
 <div class="container-fluid">
     <div class="row">
         <?php
-
         foreach ($filesUploaded as $fileUploaded) { // Boucle chaque image du dossier uploads/
 
             if ($fileUploaded == '.') {
@@ -69,7 +68,7 @@ ajouter le fichier aux upload tmp files et tout et tout
                         <p><a href="<?php echo '?delete=' . $uploadDir . $fileUploaded ?>" class="btn btn-danger"
                               role="button">Remove</a></p>
                         <?php // Si on clique sur le bouton Remove alors l'image est effacée
-                        if (isset($_GET['delete'])) {
+                        if (!empty($_GET['delete'])) {
                             unlink($_GET['delete']);
                             header('Location:index.php');
                         }
